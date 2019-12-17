@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+
+<script>
+	function reg()
+ 	{
+ 		alert("in Function register");
+ 		var rollno=document.getElementById("r").value;
+ 		var name=document.getElementById("n").value;
+ 		var address=document.getElementById("a").value;
+		var username=document.getElementById("u").value;
+		var password=document.getElementById("p").value;
+		var req=new XMLHttpRequest();
+		req.open("POST","http://localhost:8082/reg",true);
+		
+		var Student={rollno:rollno,name:name,address:address,username:username,password:password};
+		var stu=JSON.stringify(Student);
+		alert(stu);
+		req.setRequestHeader("Content-type","application/json");
+		req.send(stu);
+		req.onreadystatechange=function()
+		{
+			alert("in onreadystatechange");
+			if(req.readyState==4&&req.status==200)
+				{
+					alert("in readyState")
+					document.getElementById("b").innerHTML=req.responseText;
+				}
+		}
+ 		
+ 	}
+
+</script>
+</head>
+<body>
+Rollno:<input type="text" id="r"><br>
+Name:<input type="text" id="n"><br>
+Address:<input type="text" id="a"><br>
+Username:<input type="text" id ="u"><br>
+Password:<input type="password" id="p" ><br>
+<input type="submit" onclick="reg()">
+<p id="b"></p>
+</body>
+</html>

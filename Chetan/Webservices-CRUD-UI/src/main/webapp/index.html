@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+ 	function login()
+ 	{
+		alert("in function");
+		
+		var req=new XMLHttpRequest();
+		
+		var username=document.getElementById("u").value;
+		var password=document.getElementById("p").value;
+	
+		req.open("GET","http://localhost:8082/log/"+username+"/"+password+"",true);
+		req.send();
+
+
+		req.onreadystatechange=function()
+		{
+			alert("in onreadystatechange");
+			if(req.readyState==4&&req.status==200)
+				{
+					
+					alert("in state");
+					var list=JSON.parse(req.responseText);
+					alert("in state1");
+					var tab=document.getElementById("t2");
+					
+					var row=tab.insertRow();
+					
+					var cell=row.insertCell();
+					cell.innerHTML="rollno";
+					alert("in state2");
+					
+					var cell1=row.insertCell();
+					cell1.innerHTML="name";
+					alert("in state3");
+					
+					var cell2=row.insertCell();
+					cell2.innerHTML="address";
+					alert("in state4");
+					
+					var cell3=row.insertCell();
+					cell3.innerHTML="username";
+					alert("in state4");
+					
+					var cell4=row.insertCell();
+					cell4.innerHTML="password";
+					alert("in state5");
+					
+					
+					for(var key in list)
+						{
+							
+						var row=tab.insertRow();
+						var cell=row.insertCell();
+						cell.innerHTML=list[key].rollno;
+						
+						var cell1=row.insertCell();
+						cell1.innerHTML=list[key].name;
+						
+						var cell2=row.insertCell();
+						cell2.innerHTML=list[key].address;
+						
+						var cell3=row.insertCell();
+						cell3.innerHTML=list[key].username;
+						
+						
+						var cell4=row.insertCell();
+						cell4.innerHTML=list[key].password;
+					
+						}
+				}
+		}
+ 	}
+ 	
+ 	function del()
+ 	{
+ 		
+		alert("in function");
+		
+		var req=new XMLHttpRequest();
+		
+		var rollno=document.getElementById("rollno").value;
+	
+		req.open("GET","http://localhost:8082/delete/"+rollno,true);
+		req.send();
+
+
+		req.onreadystatechange=function()
+		{
+			alert("in onreadystatechange");
+			if(req.readyState==4&&req.status==200)
+				{
+					alert("in readyState")
+					document.getElementById("b").innerHTML=req.responseText;
+				}
+		}
+	
+ 	}
+ 	
+ 	function update()
+ 	{
+ 		
+
+ 		alert("in Function register");
+ 		var rollno=document.getElementById("rollno").value;
+ 		var name=document.getElementById("n").value;
+ 		var address=document.getElementById("a").value;
+		var username=document.getElementById("u").value;
+		var password=document.getElementById("p").value;
+		var req=new XMLHttpRequest();
+		req.open("POST","http://localhost:8082/edit",true);
+		
+		var Student={rollno:rollno,name:name,address:address,username:username,password:password};
+		var stu=JSON.stringify(Student);
+		alert(stu);
+		req.setRequestHeader("Content-type","application/json");
+		req.send(stu);
+		req.onreadystatechange=function()
+		{
+			alert("in onreadystatechange");
+			if(req.readyState==4&&req.status==200)
+				{
+				
+				alert("in state");
+				var list=JSON.parse(req.responseText);
+				alert("in state1");
+				var tab=document.getElementById("t2");
+				
+				var row=tab.insertRow();
+				
+				var cell=row.insertCell();
+				cell.innerHTML="rollno";
+				alert("in state2");
+				
+				var cell1=row.insertCell();
+				cell1.innerHTML="name";
+				alert("in state3");
+				
+				var cell2=row.insertCell();
+				cell2.innerHTML="address";
+				alert("in state4");
+				
+				var cell3=row.insertCell();
+				cell3.innerHTML="username";
+				alert("in state4");
+				
+				var cell4=row.insertCell();
+				cell4.innerHTML="password";
+				alert("in state5");
+				
+				
+				for(var key in list)
+					{
+						
+					var row=tab.insertRow();
+					var cell=row.insertCell();
+					cell.innerHTML=list[key].rollno;
+					
+					var cell1=row.insertCell();
+					cell1.innerHTML=list[key].name;
+					
+					var cell2=row.insertCell();
+					cell2.innerHTML=list[key].address;
+					
+					var cell3=row.insertCell();
+					cell3.innerHTML=list[key].username;
+					
+					
+					var cell4=row.insertCell();
+					cell4.innerHTML=list[key].password;
+				
+					}
+	
+				}
+		}
+ 		
+
+	
+ 	}
+ 	
+ 	
+ 	
+ 	
+</script>
+</head>
+<body>
+<section>
+	Username:
+	<input type="text" id="u" name="username">
+	<br> Password:
+	<input type="password" id="p" name="password">
+	<br>
+	<input type="submit" onclick="login()">
+
+	<a href="register.html"> Click here </a>
+	<table border="2" id="t2"></table>
+</section>
+
+<section ">
+	Rollno:<input type="text" id="rollno"><br>
+	Name:<input type="text" id="n"><br>
+Address:<input type="text" id="a"><br>
+Username:<input type="text" id ="u"><br>
+Password:<input type="password" id="p" ><br>
+	
+	<input type="button" value="delete" onclick="del()">
+	<input type="button" value="update" onclick="update()">
+	<table id="t2"></table>
+</section>
+</body>
+</html>
